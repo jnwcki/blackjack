@@ -3,32 +3,12 @@ class Card:
     def __init__(self):
 
         self.suit = ["Hearts", "Spades", "Clubs", "Diamonds"]
-        self.rank = ["Two", "Three", "Four",
-                     "Five", "Six", "Seven",
-                     "Eight", "Nine", "Ten",
-                     "Jack", "Queen", "King",
-                     "Ace"
-                    ]
-    # def __str__(self):
-    #    return "{} of {}".format(self, rank, suit)
-
-
-class Deck:
-    def __init__(self, *args, **kwargs):
-
-        # self.deck = deck
-        self.deck = Card()
-
-    def new_deck(self):
-        # self.new_deck = [[suit, rank for suit in Card.suit] for rank in Card.rank])
-        new_deck = []
-        for s in self.deck.suit:
-            for r in self.deck.rank:
-                new_deck.append(s + r)
-        return new_deck
-deck = Deck()
-print(deck.new_deck())
-
+        self.rank = {"Two": 2, "Three": 3, "Four": 4,
+                     "Five": 5, "Six": 6, "Seven": 7,
+                     "Eight": 8, "Nine": 9, "Ten": 10,
+                     "Jack": 10, "Queen": 10, "King": 10,
+                     "Ace": 'A'
+                     }
 
 
 
