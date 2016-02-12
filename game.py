@@ -14,6 +14,8 @@ def game():
 
     print("Welcome to Blackjack.\n")
     playing = True
+    player_stays = False
+
     while playing is True:
         player.value = sum([cards.value for cards in player.hand])
         dealer.shown_value = sum([cards.value for cards in dealer.hand[1:]])
@@ -24,8 +26,9 @@ def game():
 
         print("\nDealer's Hand: [xxx Hidden Card xxx], {}".format(dealer.hand[1:]))
         print("Dealer's Hand Value Showing: {}".format(dealer.shown_value))
+        print("_" * 60)
 
-        if player.value == 21:
+        if player.value == 21:                   # If player value is 21
             if dealer.value == 21:
                 print("Push! Dealer has 21.")
                 playing = False
@@ -38,25 +41,42 @@ def game():
         elif player.value > 21:
             print("You Lose! Bust!")
             playing = False
-        else:
+        else:                                    # If player value is less than 21
             if dealer.value == 21:
                 print("Dealer Wins")
                 playing = False
             if dealer.value > 21:
                 print("You Win! Dealer Busts.")
                 playing = False
-            else:
-                player_hit = input("\nWould you like to hit? Y/n").lower()
-                if player_hit == 'y':
-                    player.hand.append(deck.hit())
-                else:
-                    pass
-                if dealer.shown_value < 17:
-                    dealer.hand.append(deck.hit())
-                else:
-                    pass
+            else:                                 # If both player and dealer are less than 21
+                if dealer.value < 17:
+
+                    if player_stays is False:
+                        player_hit = input("\nWould you like to hit? Y/n").lower()
+                        if player_hit == 'y':
+                            player.hand.append(deck.hit())
+                        else:                          # Player decides to stay
+                            dealer.hand.append(deck.hit())
+                            player_stays = True
+                    else:
+                        dealer.hand.append(deck.hit())
+
+
+
+                else:                           # Both players done taking cards. Compare hands
+
+                    if player.value > dealer.value:
+                        print("You beat the dealer! You Win!")
+                        playing = False
+                    elif player.value < dealer.value:
+                        print("Dealer's hand beats yours. You Lose.")
+                        playing = False
+                    else:
+                        print("Push. Game over.")
+                        playing = False
+
     else:
-        print("Dealer's Hand Was: {}".format(dealer.hand))
+        print("\n\nDealer's Hand Was: {}  Total Value {}".format(dealer.hand, dealer.value))
         if input("\nGame over. Play again? Y/n").lower() == 'y':
             game()
         else:
