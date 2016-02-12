@@ -1,42 +1,64 @@
-from card import Card
-from hand import Hand
 from deck import Deck
-import itertools
-
-class Player(Hand):
-    def __init__(self):
-        super().__init__()
-        self.hand = []
-        self.hand = Deck().hit_two()[0:]
-
-
-class Dealer(Hand):
-    def __init__(self):
-        super().__init__()
-        self.hand = []
-        self.hand = Deck().hit_two()[0:]
+from player import Player
+from dealer import Dealer
 
 
 def game():
-    Deck().new_deck()
+
+    deck = Deck()
+    player = Player()
+    dealer = Dealer()
+
+    player.hand = [deck.hit() for _ in range(2)]
+    dealer.hand = [deck.hit() for _ in range(2)]
+
     print("Welcome to Blackjack.\n")
-    while True:
+    playing = True
+    while playing is True:
+        player.value = sum([cards.value for cards in player.hand])
+        dealer.shown_value = sum([cards.value for cards in dealer.hand[1:]])
+        dealer.value = sum([cards.value for cards in dealer.hand])
 
-        print("Your Hand:")
-        #pl_hand_chain = itertools.chain(*Player().hand)
-        #pl_hand_value = list(itertools.chain(*Player().hand))[::2]
-        #print(list(pl_hand_chain)[::-2])
-        #print("Your hand is worth: " + str(sum(list(pl_hand_chain))))
+        print("Your Hand: {}".format(list(player.hand[0:])))
+        print("Your Hand's Value: {}".format(player.value))
 
-        print("\nDealer Hand:")
-        #dl_hand_chain = itertools.chain(*Dealer().hand)
-        #dl_hand_value = list(itertools.chain(*Dealer().hand))
-        #print("[xxx--Hidden--xxx], " + str(list(dl_hand_chain)))
-        #print("Dealer's hand showing: " + str(sum(list(dl_hand_chain)[2::2])))
-        player_hit = input("\nWould you like to hit? Y/n")
+        print("\nDealer's Hand: [xxx Hidden Card xxx], {}".format(dealer.hand[1:]))
+        print("Dealer's Hand Value Showing: {}".format(dealer.shown_value))
 
-
-        break
+        if player.value == 21:
+            if dealer.value == 21:
+                print("Push! Dealer has 21.")
+                playing = False
+            elif dealer.value > 21:
+                print("You Win! Dealer Busts.")
+                playing = False
+            else:
+                print("You Win!")
+                playing = False
+        elif player.value > 21:
+            print("You Lose! Bust!")
+            playing = False
+        else:
+            if dealer.value == 21:
+                print("Dealer Wins")
+                playing = False
+            if dealer.value > 21:
+                print("You Win! Dealer Busts.")
+                playing = False
+            else:
+                player_hit = input("\nWould you like to hit? Y/n").lower()
+                if player_hit == 'y':
+                    player.hand.append(deck.hit())
+                else:
+                    pass
+                if dealer.shown_value < 17:
+                    dealer.hand.append(deck.hit())
+                else:
+                    pass
+    else:
+        print("Dealer's Hand Was: {}".format(dealer.hand))
+        if input("\nGame over. Play again? Y/n").lower() == 'y':
+            game()
+        else:
+            pass
 game()
-
-

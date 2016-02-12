@@ -8,5 +8,4 @@ class Deck:
         random.shuffle(self.deck)
 
     def hit(self):
-        card = self.deck.pop()
-        return card
+        return self.deck.pop()
