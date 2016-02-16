@@ -7,10 +7,11 @@ class Hand:
 
     def get_value(self):
         self.value = sum([cards.value for cards in self.hand])
-
-    def get_shown_value(self):
         self.shown_value = sum([cards.value for cards in self.hand[1:]])
-
-    def get_aces(self):
         self.aces = len([card for card in self.hand if card.value == 11])
-
+        while self.aces > 0:
+            if self.value > 21:
+                self.value -= 10
+                self.aces -= 1
+            else:
+                break

@@ -4,7 +4,7 @@ from dealer import Dealer
 
 
 def game():
-
+    # Instantiate game deck, player and dealer
     deck = Deck()
     player = Player()
     dealer = Dealer()
@@ -18,26 +18,8 @@ def game():
     player_stays = False
 
     while playing is True:
-        # Want to get the following block working in the hand class
         player.get_value()
-        player.get_aces()
         dealer.get_value()
-        dealer.get_shown_value()
-        dealer.get_aces()
-
-        while player.aces > 0:
-            if player.value > 21:
-                player.value -= 10
-                player.aces -= 1
-            else:
-                break
-        while dealer.aces > 0:
-            if dealer.value > 21:
-                dealer.value -= 10
-                dealer.aces -= 1
-            else:
-                break
-
         print("Your Hand: {}".format(list(player.hand[0:])))
         print("Your Hand's Value: {}".format(player.value))
 
@@ -47,9 +29,10 @@ def game():
         if player_stays is False:
             if player.value < 21:
                 player_hit = input("\nWould you like to hit? Y/n").lower()
-                if player_hit == 'y':
+                if player_hit != 'n':
                     player.hand.append(deck.hit())
-                elif player_hit == 'n':
+                else:
+                    print("You Have Decided To Stay.")
                     player_stays = True
             else:
                 player_stays = True
@@ -76,6 +59,8 @@ def game():
                         playing = False
 
     print("\n\nDealer's Hand Was: {}  Total Value {}".format(dealer.hand, dealer.value))
-    if input("\nGame over. Play again? Y/n").lower() == 'y':
+    if input("\nGame over. Play again? Y/n").lower() != 'n':
         game()
+    else:
+        print("Goodbye!")
 game()
