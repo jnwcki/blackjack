@@ -28,11 +28,13 @@ def game():
         while player.aces > 0:
             if player.value > 21:
                 player.value -= 10
+                player.aces -= 1
             else:
                 break
         while dealer.aces > 0:
             if dealer.value > 21:
-                dealer.value -=10
+                dealer.value -= 10
+                dealer.aces -= 1
             else:
                 break
 
