@@ -1,13 +1,12 @@
 from deck import Deck
-from player import Player
-from dealer import Dealer
+from hand import Hand
 
 
 def game():
     # Instantiate game deck, player and dealer
     deck = Deck()
-    player = Player()
-    dealer = Dealer()
+    player = Hand()
+    dealer = Hand()
 
     # Initial Deal
     player.hand = [deck.hit() for _ in range(2)]
