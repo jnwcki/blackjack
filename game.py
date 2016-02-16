@@ -19,11 +19,11 @@ def game():
 
     while playing is True:
         # Want to get the following block working in the hand class
-        player.value = sum([cards.value for cards in player.hand])
-        player.aces = len([card for card in player.hand if card.value == 11])
-        dealer.shown_value = sum([cards.value for cards in dealer.hand[1:]])
-        dealer.value = sum([cards.value for cards in dealer.hand])
-        dealer.aces = len([card for card in dealer.hand if card.value == 11])
+        player.get_value()
+        player.get_aces()
+        dealer.get_value()
+        dealer.get_shown_value()
+        dealer.get_aces()
 
         while player.aces > 0:
             if player.value > 21:
@@ -78,6 +78,4 @@ def game():
     print("\n\nDealer's Hand Was: {}  Total Value {}".format(dealer.hand, dealer.value))
     if input("\nGame over. Play again? Y/n").lower() == 'y':
         game()
-    else:
-        pass
 game()
