@@ -7,7 +7,7 @@ class Card:
         self.value = value
 
         if self.rank == 1:
-            self.value = 1
+            self.value = 11
         elif self.rank in range(2, 10):
             self.value = self.rank
         else:
